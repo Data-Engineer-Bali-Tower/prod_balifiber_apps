@@ -366,7 +366,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\ETL\prod_balifiber_apps\get-lastrun.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/get-lastrun.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -391,7 +391,7 @@
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
       </parameters>
-      <parallel>N</parallel>
+      <parallel>Y</parallel>
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>480</xloc>
@@ -405,7 +405,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\ETL\prod_balifiber_apps\inc_customer_vouchers.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/inc_customer_vouchers.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -444,7 +444,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\ETL\prod_balifiber_apps\inc_users.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/inc_users.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -483,7 +483,7 @@
       <attributes/>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C:\ETL\prod_balifiber_apps\inc_customer.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/inc_customer.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -521,7 +521,10 @@
       <type>SQL</type>
       <attributes/>
       <sql>UPDATE etl.etlstatus
-SET lastrun = TO_TIMESTAMP('${CURRENT_RUN}', 'YYYY-MM-DD HH24:MI:SS')
+SET lastrun = CASE 
+    WHEN '${CURRENT_RUN}' = '' OR '${CURRENT_RUN}' LIKE '%$%' THEN CURRENT_TIMESTAMP
+    ELSE TO_TIMESTAMP('${CURRENT_RUN}', 'YYYY-MM-DD HH24:MI:SS')
+END
 WHERE TRIM(LOWER(etlname)) = 'balifiber_prod';</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
